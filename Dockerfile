@@ -1,4 +1,4 @@
-FROM docker.io/bitnami/wordpress:latest
+FROM docker.io/bitnami/wordpress:6.7.1
 
 USER 0
 
