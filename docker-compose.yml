@@ -1,0 +1,44 @@
+services:
+  mariadb:
+    image: docker.io/bitnami/mariadb:11.4
+    ports:
+      - "33063:3306"
+    volumes:
+      - "mariadb_data:/bitnami/mariadb"
+      - "./mariadb-post-init.d:/docker-entrypoint-initdb.d"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_wordpress
+      - MARIADB_DATABASE=bitnami_wordpress
+      - MARIADB_SKIP_TEST_DB=yes
+  wordpress:
+    build: .
+    ports:
+      - '8099:8080'
+      - '8449:8443'
+    volumes:
+      - 'wordpress_data:/bitnami/wordpress'
+      # Plugin mount cannot be inside the named volume on container build time
+      # https://github.com/moby/moby/issues/26051#issuecomment-125618978 (?)
+      # workaround: symlink plugin from elsewhere into plugins dir in post-init script
+      - '.:/bitnami/my-cf-plugin'
+      - './wordpress-post-init.d:/docker-entrypoint-init.d'
+      - './php-conf.d:/opt/bitnami/php/etc/conf.d'
+    depends_on:
+      - mariadb
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - WORDPRESS_DATABASE_HOST=mariadb
+      - WORDPRESS_DATABASE_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=bn_wordpress
+      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+    # Following cannot be used on first startup but some workaround would be useful
+    # https://github.com/jasalt/phel-wp-plugin/commit/4a38d7c7ba4291175c0736e76b1e39d5d7c10796
+    # working_dir: /opt/bitnami/wordpress/wp-content/plugins/<my-plugin-name>
+
+volumes:
+  mariadb_data:
+    driver: local
+  wordpress_data:
+    driver: local
