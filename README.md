@@ -1,4 +1,4 @@
-Reproducing bug https://github.com/htmlburger/carbon-fields/issues/1218
+# Reproducing bug https://github.com/htmlburger/carbon-fields/issues/1218
 ```
 git clone git@github.com:jasalt/carbon-fields-issue-1218-demo.git
 sudo chmod -R 777 carbon-fields-issue-1218-demo # required on Linux to allow Composer to create vendor/ in mounted dir
@@ -31,6 +31,6 @@ wordpress-1  | 192.168.48.1 - - [19/Jan/2025:08:20:16 +0000] "GET /favicon.ico H
 wordpress-1  | 192.168.48.1 - - [19/Jan/2025:08:21:16 +0000] "POST /wp-admin/admin-ajax.php HTTP/1.1" 200 47
 
 ```
-
+# Workaround
 - Fix by uncommenting [line 29](https://github.com/jasalt/carbon-fields-issue-1218-demo/blob/main/my-cf-plugin.php#L29) in `my-cf-plugin.php` and reload page without cache (may take a moment).
 - Re-create container if doesn't work otherwise `docker compose down -v && docker compose up`.
