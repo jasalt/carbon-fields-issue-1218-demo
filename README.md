@@ -34,3 +34,6 @@ wordpress-1  | 192.168.48.1 - - [19/Jan/2025:08:21:16 +0000] "POST /wp-admin/adm
 # Workaround
 - Fix by uncommenting [line 29](https://github.com/jasalt/carbon-fields-issue-1218-demo/blob/main/my-cf-plugin.php#L29) in `my-cf-plugin.php` and reload page without cache (may take a moment).
 - Re-create container if doesn't work otherwise `docker compose down -v && docker compose up`.
+
+Working UI:
+![Screenshot_20250119_110454](https://github.com/user-attachments/assets/326f9c80-1197-4521-9157-1c17cfc39fcb)
